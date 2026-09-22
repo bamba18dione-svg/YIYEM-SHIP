@@ -104,7 +104,7 @@ export async function orderViaWhatsApp() {
     }
   }
 
-  const phoneShop = '221770000000';
+  const phoneShop = '221777770961';
   const waUrl = `https://wa.me/${phoneShop}?text=${encodeURIComponent(message)}`;
   window.open(waUrl, '_blank');
 }
