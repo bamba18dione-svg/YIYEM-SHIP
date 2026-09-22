@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>YIYEM SHIP — Streetwear & Mode</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/order-details.css">
+</head>
+
+<body>
+    <div class="login-modal-overlay" id="loginModal">
+        <div class="login-card">
+            <button class="close-modal" id="closeLoginModal" type="button" aria-label="Fermer"><i data-lucide="x"></i></button>
+            <div class="login-header">
+                <div class="logo">YIYEM<b>SHIP</b>.</div>
+                <h3>Espace Gérant</h3>
+                <p>Connectez-vous pour accéder au tableau de bord et gérer vos commandes.</p>
+            </div>
+            <form id="loginForm">
+                <label>Identifiant
+                    <input id="managerEmail" autocomplete="username" placeholder="Identifiant" required>
+                </label>
+                <label>Mot de passe
+                    <input id="managerPassword" type="password" autocomplete="current-password" placeholder="Mot de passe" required>
+                </label>
+                <p class="form-error" id="loginError"></p>
+                <button class="primary login-submit-btn" type="submit">Se connecter</button>
+            </form>
+        </div>
+    </div>
+    <header>
+        <a class="logo" href="#">YIYEM<b>SHIP</b>.</a>
+        <div class="search"><i data-lucide="search"></i><input id="search" placeholder="Que recherchez-vous ?"></div>
+        <div class="head-actions">
+            <button class="head-action" id="managerTrigger" type="button" title="Accès Gérant">
+                <i data-lucide="lock"></i>
+                <span>Gérant</span>
+            </button>
+            <button class="head-action" id="cartTrigger" type="button">
+                <i data-lucide="shopping-bag"></i>
+                <span>Panier</span>
+                <b class="basket-count" id="basketCount">0</b>
+            </button>
+        </div>
+    </header>
+    <nav class="categorybar"><a class="active" href="#catalogue">Nouveautés</a><a href="#catalogue"
+            data-filter="T-shirts">T-shirts</a><a href="#catalogue" data-filter="Jeans">Jeans</a><a href="#catalogue"
+            data-filter="Foot">Maillots de foot</a><a href="#catalogue" data-filter="Basket">Basket</a><a
+            href="#catalogue" data-filter="Chaussures">Chaussures</a><a href="#footer">Contact</a></nav>
+    <main class="container">
+        <section class="hero">
+            <div class="hero-watermark" aria-hidden="true">YIYEM SHIP</div>
+            <div class="hero-copy">
+                <div class="hero-badge">
+                    <span class="pulse-dot"></span>
+                    <span>NOUVELLE COLLECTION · YIYEM SHIP 2026</span>
+                </div>
+                <h1 class="hero-title">
+                    Bienvenue dans l’univers de<br>
+                    <span class="hero-brand-name">YIYEM <b>SHIP</b></span>
+                </h1>
+                <p>Découvrez la référence mode & streetwear au Sénégal. Des pièces exclusives pensées pour sublimer chacun de vos mouvements.</p>
+                <div class="hero-actions">
+                    <button class="primary hero-btn" type="button"
+                        onclick="document.querySelector('#catalogue').scrollIntoView({behavior:'smooth'})">
+                        <span>Découvrir la collection</span>
+                        <i data-lucide="arrow-right"></i>
+                    </button>
+                    <button class="hero-btn-ghost" type="button" onclick="setCategory('Tous')">
+                        <i data-lucide="sparkles"></i>
+                        <span>Explorer le catalogue</span>
+                    </button>
+                </div>
+            </div>
+            <div class="hero-card">
+                <div class="hero-card-item">
+                    <div class="hero-card-icon"><i data-lucide="shield-check"></i></div>
+                    <div>
+                        <strong>100% Authentique</strong>
+                        <small>Streetwear certifié & vérifié</small>
+                    </div>
+                </div>
+                <div class="hero-card-sep"></div>
+                <div class="hero-card-item">
+                    <div class="hero-card-icon"><i data-lucide="truck"></i></div>
+                    <div>
+                        <strong>Livraison Express</strong>
+                        <small>Dakar sous 24h & tout le Sénégal</small>
+                    </div>
+                </div>
+                <div class="hero-trust-bar">
+                    <div class="trust-stars">
+                        <i data-lucide="star"></i>
+                        <i data-lucide="star"></i>
+                        <i data-lucide="star"></i>
+                        <i data-lucide="star"></i>
+                        <i data-lucide="star"></i>
+                    </div>
+                    <span>4.9/5 · <b>+1 500 clients</b> conquis</span>
+                </div>
+            </div>
+        </section>
+        <section class="benefits">
+            <div class="benefit"><i data-lucide="truck"></i>
+                <div><strong>Livraison rapide</strong><small>Partout au Sénégal</small></div>
+            </div>
+            <div class="benefit"><i data-lucide="shield-check"></i>
+                <div><strong>Paiement sécurisé</strong><small>100% fiable & protégé</small></div>
+            </div>
+            <div class="benefit"><i data-lucide="refresh-cw"></i>
+                <div><strong>Retour facile</strong><small>14 jours pour changer d’avis</small></div>
+            </div>
+            <div class="benefit"><i data-lucide="headphones"></i>
+                <div><strong>À votre écoute</strong><small>Service client 7j/7</small></div>
+            </div>
+        </section>
+        <section id="catalogue">
+            <div class="section-head">
+                <div>
+                    <h2>Nos coups de cœur</h2>
+                    <p>Les pièces que tout le monde s’arrache.</p>
+                </div>
+            </div>
+            <div class="chips" id="chips"><button class="chip selected" data-category="Tous">Tout voir</button><button
+                    class="chip" data-category="T-shirts">T-shirts</button><button class="chip"
+                    data-category="Jeans">Jeans</button><button class="chip" data-category="Foot">Foot</button><button
+                    class="chip" data-category="Basket">Basket</button><button class="chip"
+                    data-category="Chaussures">Chaussures</button></div>
+            <div class="products" id="productGrid"></div>
+        </section>
+        <section class="simple-banner" id="simpleBanner">
+            <div class="simple-marquee">
+                <div class="simple-marquee-track">
+                    <span>YIYEM SHIP</span> <i>✦</i>
+                    <span>SNEAKERS & STREETWEAR</span> <i>✦</i>
+                    <span>LIVRAISON EXPRESS 24H DAKAR</span> <i>✦</i>
+                    <span>100% AUTHENTIQUE</span> <i>✦</i>
+                    <span>NOUVELLE COLLECTION 2026</span> <i>✦</i>
+                    <span>YIYEM SHIP</span> <i>✦</i>
+                    <span>SNEAKERS & STREETWEAR</span> <i>✦</i>
+                    <span>LIVRAISON EXPRESS 24H DAKAR</span> <i>✦</i>
+                    <span>100% AUTHENTIQUE</span> <i>✦</i>
+                    <span>NOUVELLE COLLECTION 2026</span> <i>✦</i>
+                </div>
+            </div>
+
+            <div class="simple-banner-body">
+                <div class="simple-banner-text">
+                    <span class="simple-badge">Sélection du moment</span>
+                    <h2>Le style streetwear, <span>en toute simplicité</span>.</h2>
+                    <p>Découvrez nos modèles les plus demandés. Commandez directement et faites-vous livrer en express partout au Sénégal.</p>
+                    <button class="primary simple-cta" onclick="document.querySelector('#catalogue').scrollIntoView({behavior:'smooth'})" type="button">
+                        <span>Explorer la collection</span>
+                        <i data-lucide="arrow-right"></i>
+                    </button>
+                </div>
+
+                <div class="simple-banner-img-wrap" onclick="openProduct(17)">
+                    <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=700&q=80" alt="Nike Dunk Low Panda">
+                    <div class="simple-img-tag">Nike Dunk Panda · 36 000 FCFA</div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer id="footer">
+        <div class="footer-grid">
+            <div>
+                <div class="footer-logo">YIYEM<span style="color:var(--orange)">SHIP</span>.</div>
+                <p>La mode accessible, sans compromis.</p>
+            </div>
+            <div>
+                <h4>BESOIN D'AIDE ?</h4>
+                <a href="#">Centre d'aide</a>
+                <a href="#">Livraison & retours</a>
+                <a href="#" id="footerManagerLink"><i data-lucide="lock" style="width:12px;height:12px;display:inline-block;vertical-align:middle;margin-right:4px;"></i>Espace Gérant</a>
+            </div>
+            <div>
+                <h4>CONTACT</h4>
+                <p>hello@yiyemship.sn<br>+221 77 000 00 00</p>
+            </div>
+            <div>
+                <h4>PAIEMENTS</h4>
+                <div class="payments"><b class="pay">OM</b><b class="pay">wave</b><b class="pay">VISA</b></div>
+            </div>
+        </div>
+        <div class="foot-bottom"><span>© YIYEM SHIP</span></div>
+    </footer>
+    <div class="overlay" id="overlay"></div>
+    <aside class="drawer" id="drawer">
+        <div class="drawer-header">
+            <h3>Votre panier <span id="drawerCount"></span></h3><button class="icon-btn" id="closeCart"><i
+                    data-lucide="x"></i></button>
+        </div>
+        <div class="cart-items" id="cartItems"></div>
+        <div class="checkout-panel" id="checkoutPanel">
+            <h4>Informations de livraison</h4>
+            <div class="checkout-grid">
+                <label class="full-width">Nom complet
+                    <input id="customerName" type="text" placeholder="Votre nom complet" required>
+                </label>
+                <label class="full-width">Téléphone
+                    <input id="customerPhone" type="tel" placeholder="Ex: 77 123 45 67" required>
+                </label>
+                <label class="full-width">Adresse exacte
+                    <input id="customerAddress" type="text" placeholder="Ville, quartier, rue..." required>
+                </label>
+                <div class="full-width payment-selection-wrap">
+                    <span class="payment-selection-title">Mode de paiement</span>
+                    <div class="payment-radios">
+                        <label class="payment-radio-card">
+                            <input type="radio" name="paymentMethod" value="À la livraison" checked>
+                            <span class="payment-radio-content">
+                                <i data-lucide="truck"></i>
+                                <span>À la livraison</span>
+                            </span>
+                        </label>
+                        <label class="payment-radio-card">
+                            <input type="radio" name="paymentMethod" value="Wave">
+                            <span class="payment-radio-content">
+                                <span class="pay-icon-wave">🌊</span>
+                                <span>Wave</span>
+                            </span>
+                        </label>
+                        <label class="payment-radio-card">
+                            <input type="radio" name="paymentMethod" value="Orange Money">
+                            <span class="payment-radio-content">
+                                <span class="pay-icon-om">🟠</span>
+                                <span>OM</span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="cart-total"><span>Total</span><span id="total">0 FCFA</span></div>
+            <div class="checkout-btns-group">
+                <button class="checkout" id="checkout">Valider la commande</button>
+                <button class="whatsapp-btn" id="whatsappOrder" type="button">
+                    <svg viewBox="0 0 24 24" width="19" height="19" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm5.8 14.16c-.24.67-1.39 1.25-1.92 1.33-.51.08-1.17.11-3.37-.8-2.6-1.07-4.27-3.73-4.4-3.9-.13-.18-1.06-1.41-1.06-2.68s.67-1.89.91-2.14c.24-.25.53-.32.7-.32.18 0 .36 0 .52.01.17.01.4.06.62.54.24.52.81 1.98.88 2.12.07.15.12.32.02.52-.1.2-.15.32-.3.5-.15.17-.32.39-.46.52-.15.15-.31.31-.13.62.18.31.8 1.31 1.71 2.12 1.18 1.05 2.16 1.38 2.47 1.53.31.15.49.13.67-.08.18-.21.78-.91.99-1.22.21-.31.42-.26.7-.15.28.11 1.78.84 2.09.99.31.15.52.23.6.36.08.13.08.77-.16 1.44z"/></svg>
+                    <span>Commander via WhatsApp</span>
+                </button>
+            </div>
+        </div>
+    </aside>
+    <div class="modal" id="modal">
+        <div class="modal-grid">
+            <div class="modal-image"><img id="modalImg"></div>
+            <div class="modal-info"><button class="close-modal" id="closeModal" type="button"><i
+                        data-lucide="x"></i></button>
+                <div class="brand" id="modalBrand"></div>
+                <h2 id="modalName"></h2>
+                <div class="price" id="modalPrice"></div>
+                <p id="modalDesc"></p>
+                <div class="size-label">Choisir une taille</div>
+                <div class="sizes" id="sizes"></div>
+                <p class="stock" id="stock"></p>
+                <div class="modal-action">
+                    <div class="quantity"><button id="minus">−</button><span id="qty">1</span><button
+                            id="plus">+</button></div><button class="primary" id="addToCart">Ajouter au panier</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="manager-modal" id="managerModal">
+        <div class="manager-panel dashboard-shell">
+            <div id="dashboardView">
+                <div class="dashboard-head">
+                    <div>
+                        <div class="eyebrow">Tableau de bord</div>
+                        <h2>Bonjour, Gérant 👋</h2>
+                        <p>Voici l’activité de votre boutique aujourd’hui.</p>
+                    </div><button class="logout-btn" id="logout" type="button"><i data-lucide="log-out"></i><span>Déconnexion</span></button>
+                </div>
+                <div class="dash-nav"><button class="dash-tab active" data-section="overview">Vue
+                        d'ensemble</button><button class="dash-tab" data-section="products">Articles</button></div>
+                <div id="overviewSection">
+                    <div class="stats-grid">
+                        <article class="stat-card"><span class="stat-icon orange"><i data-lucide="banknote"></i></span>
+                            <p>Chiffre d'affaires</p><strong id="revenueStat">0 FCFA</strong><small>+12,5% ce
+                                mois</small>
+                        </article>
+                        <article class="stat-card"><span class="stat-icon green"><i
+                                    data-lucide="shopping-bag"></i></span>
+                            <p>Commandes</p><strong id="ordersStat">0</strong><small>+8,2% ce mois</small>
+                        </article>
+                        <article class="stat-card"><span class="stat-icon blue"><i data-lucide="users"></i></span>
+                            <p>Clients</p><strong id="clientsStat">0</strong><small>12 nouveaux ce mois</small>
+                        </article>
+                        <article class="stat-card"><span class="stat-icon purple"><i
+                                    data-lucide="package-check"></i></span>
+                            <p>Articles en stock</p><strong id="stockStat">0</strong><small id="lowStockStat">0 à
+                                surveiller</small>
+                        </article>
+                    </div>
+                    <div class="dash-columns">
+                        <article class="dashboard-card">
+                            <div class="card-title">
+                                <div>
+                                    <h3>Ventes de la semaine</h3>
+                                    <p>Chiffre d'affaires quotidien</p>
+                                </div><b id="weeklyRevenue"></b>
+                            </div>
+                            <div class="chart" id="salesChart"></div>
+                            <div class="chart-labels">
+                                <span>Lun</span><span>Mar</span><span>Mer</span><span>Jeu</span><span>Ven</span><span>Sam</span><span>Dim</span>
+                            </div>
+                        </article>
+                        <article class="dashboard-card">
+                            <h3>Modes de paiement</h3>
+                            <div class="payment-stats">
+                                <div><span>Orange Money</span><strong>42%</strong></div>
+                                <div><span>Wave</span><strong>31%</strong></div>
+                                <div><span>À la livraison</span><strong>18%</strong></div>
+                                <div><span>Carte bancaire</span><strong>9%</strong></div>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="dash-columns bottom">
+                        <article class="dashboard-card">
+                            <h3>Commandes récentes</h3>
+                            <div class="orders-table-head" aria-hidden="true"><span>Commande</span><span>Articles</span><span>Total</span><span>Statut</span></div>
+                            <div class="orders-table" id="ordersTable"></div>
+                            <div class="order-detail-panel" id="orderDetailPanel" hidden>
+                                <div class="order-detail-header"><strong>Détails du client</strong></div>
+                                <div id="orderDetailContent"></div>
+                            </div>
+                        </article>
+                        <article class="dashboard-card">
+                            <h3>Stock à surveiller</h3>
+                            <div class="low-stock-list" id="lowStockList"></div>
+                        </article>
+                    </div>
+                </div>
+                <div id="productsSection" hidden>
+                    <div class="products-admin-head">
+                        <div>
+                            <h3>Catalogue produits</h3>
+                            <p>Ajoutez et gérez les articles proposés.</p>
+                        </div><button class="primary" id="newProduct">Ajouter un article</button>
+                    </div>
+                    <div class="admin-list" id="adminList"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="product-form-modal" id="productFormModal">
+        <form class="product-form" id="productForm" enctype="multipart/form-data">
+            <div class="form-heading">
+                <h2 id="formTitle">Ajouter un article</h2><button type="button" class="icon-btn"
+                    id="closeProductForm"><i data-lucide="x"></i></button>
+            </div><input type="hidden" id="productId">
+            <div class="form-grid"><label>Nom<input id="formName" required></label><label>Marque<input id="formBrand"
+                        required></label><label>Catégorie<select id="formCategory">
+                        <option>T-shirts</option>
+                        <option>Jeans</option>
+                        <option>Foot</option>
+                        <option>Basket</option>
+                        <option>Chaussures</option>
+                        <option>Vêtements</option>
+                    </select></label><label>Prix<input id="formPrice" type="number" required></label><label>Ancien
+                    prix<input id="formOld" type="number"></label><label>Tailles<input id="formSizes"
+                        required></label><label>Stock<input id="formStock" type="number" min="0" value="10"
+                        required></label></div><label>Photo du produit<input id="formImg" type="file"
+                    accept="image/jpeg,image/png,image/webp"></label><label>Description<textarea id="formDesc"
+                    required></textarea></label><label>Étiquette<input id="formTag"></label><button class="primary"
+                type="submit">Enregistrer l'article</button>
+        </form>
+    </section>
+    <div class="toast" id="toast"></div>
+    <script type="module" src="/js/main.js"></script>
+</body>
+
+</html>
