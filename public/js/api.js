@@ -49,3 +49,7 @@ export function deleteProduct(id) {
 export function updateOrderStatus(id, status) {
   return postJson(`${API}/order/${id}/status`, { status });
 }
+
+export function changePassword(currentPassword, newPassword, confirmPassword) {
+  return postJson(`${API}/manager/password`, { currentPassword, newPassword, confirmPassword });
+}

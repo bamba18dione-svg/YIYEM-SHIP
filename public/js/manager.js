@@ -418,8 +418,48 @@ export function setupManager() {
   $('#productForm').onsubmit = productFormSubmit;
   document.querySelectorAll('.dash-tab').forEach(tab => tab.onclick = () => {
     document.querySelectorAll('.dash-tab').forEach(x => x.classList.toggle('active', x === tab));
-    const productsActive = tab.dataset.section === 'products';
-    $('#overviewSection').hidden = productsActive;
-    $('#productsSection').hidden = !productsActive;
+    const section = tab.dataset.section;
+    $('#overviewSection').hidden = section !== 'overview';
+    $('#productsSection').hidden = section !== 'products';
+    const securitySection = $('#securitySection');
+    if (securitySection) securitySection.hidden = section !== 'security';
   });
+
+  const changePasswordForm = $('#changePasswordForm');
+  if (changePasswordForm) {
+    changePasswordForm.onsubmit = async e => {
+      e.preventDefault();
+      const currentPassword = $('#currentPassword').value;
+      const newPassword = $('#newPassword').value;
+      const confirmNewPassword = $('#confirmNewPassword').value;
+      const errorEl = $('#changePasswordError');
+      const submitBtn = $('#savePasswordBtn');
+
+      if (errorEl) errorEl.textContent = '';
+
+      if (newPassword.length < 6) {
+        if (errorEl) errorEl.textContent = 'Le nouveau mot de passe doit comporter au moins 6 caractères.';
+        return;
+      }
+
+      if (newPassword !== confirmNewPassword) {
+        if (errorEl) errorEl.textContent = 'Les deux nouveaux mots de passe ne correspondent pas.';
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span>Enregistrement...</span>';
+
+      const res = await api.changePassword(currentPassword, newPassword, confirmNewPassword);
+      if (res.ok) {
+        changePasswordForm.reset();
+        showToast('✓ Mot de passe gérant mis à jour avec succès !');
+      } else {
+        if (errorEl) errorEl.textContent = res.data?.error || 'Erreur lors de la mise à jour.';
+      }
+
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<span>Mettre à jour le mot de passe</span>';
+    };
+  }
 }

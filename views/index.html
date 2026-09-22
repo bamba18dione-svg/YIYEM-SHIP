@@ -278,7 +278,8 @@
                     </div><button class="logout-btn" id="logout" type="button"><i data-lucide="log-out"></i><span>Déconnexion</span></button>
                 </div>
                 <div class="dash-nav"><button class="dash-tab active" data-section="overview">Vue
-                        d'ensemble</button><button class="dash-tab" data-section="products">Articles</button></div>
+                        d'ensemble</button><button class="dash-tab" data-section="products">Articles</button><button
+                        class="dash-tab" data-section="security">Sécurité</button></div>
                 <div id="overviewSection">
                     <div class="stats-grid">
                         <article class="stat-card"><span class="stat-icon orange"><i data-lucide="banknote"></i></span>
@@ -345,6 +346,30 @@
                         </div><button class="primary" id="newProduct">Ajouter un article</button>
                     </div>
                     <div class="admin-list" id="adminList"></div>
+                </div>
+                <div id="securitySection" hidden>
+                    <div class="security-card">
+                        <div class="security-head">
+                            <span class="stat-icon orange" style="margin-bottom:12px;"><i data-lucide="shield-check"></i></span>
+                            <h3>Modifier le mot de passe gérant</h3>
+                            <p>Mettez à jour vos identifiants pour sécuriser l’accès à votre boutique.</p>
+                        </div>
+                        <form id="changePasswordForm" class="security-form">
+                            <label>Mot de passe actuel
+                                <input type="password" id="currentPassword" required placeholder="Votre mot de passe actuel" autocomplete="current-password">
+                            </label>
+                            <label>Nouveau mot de passe
+                                <input type="password" id="newPassword" required placeholder="Au moins 6 caractères" autocomplete="new-password">
+                            </label>
+                            <label>Confirmer le nouveau mot de passe
+                                <input type="password" id="confirmNewPassword" required placeholder="Retapez le nouveau mot de passe" autocomplete="new-password">
+                            </label>
+                            <p class="form-error" id="changePasswordError"></p>
+                            <button class="primary" type="submit" id="savePasswordBtn" style="margin-top:14px;">
+                                <span>Mettre à jour le mot de passe</span>
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
