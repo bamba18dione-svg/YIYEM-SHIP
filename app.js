@@ -15,6 +15,7 @@ const uploadsDir = path.join(root, 'uploads');
 export function createApp() {
   const app = express();
 
+  app.set('trust proxy', 1);
   app.use(express.json());
   app.use(session({
     secret: process.env.SESSION_SECRET || randomBytes(32).toString('hex'),
