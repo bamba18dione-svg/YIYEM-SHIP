@@ -283,15 +283,14 @@
                 <div id="overviewSection">
                     <div class="stats-grid">
                         <article class="stat-card"><span class="stat-icon orange"><i data-lucide="banknote"></i></span>
-                            <p>Chiffre d'affaires</p><strong id="revenueStat">0 FCFA</strong><small>+12,5% ce
-                                mois</small>
+                            <p>Chiffre d'affaires</p><strong id="revenueStat">0 FCFA</strong><small>Total cumulé</small>
                         </article>
                         <article class="stat-card"><span class="stat-icon green"><i
                                     data-lucide="shopping-bag"></i></span>
-                            <p>Commandes</p><strong id="ordersStat">0</strong><small>+8,2% ce mois</small>
+                            <p>Commandes</p><strong id="ordersStat">0</strong><small>Total des commandes</small>
                         </article>
                         <article class="stat-card"><span class="stat-icon blue"><i data-lucide="users"></i></span>
-                            <p>Clients</p><strong id="clientsStat">0</strong><small>12 nouveaux ce mois</small>
+                            <p>Clients</p><strong id="clientsStat">0</strong><small>Clients enregistrés</small>
                         </article>
                         <article class="stat-card"><span class="stat-icon purple"><i
                                     data-lucide="package-check"></i></span>
@@ -305,7 +304,7 @@
                                 <div>
                                     <h3>Ventes de la semaine</h3>
                                     <p>Chiffre d'affaires quotidien</p>
-                                </div><b id="weeklyRevenue"></b>
+                                </div><b id="weeklyRevenue">0 FCFA</b>
                             </div>
                             <div class="chart" id="salesChart"></div>
                             <div class="chart-labels">
@@ -314,11 +313,10 @@
                         </article>
                         <article class="dashboard-card">
                             <h3>Modes de paiement</h3>
-                            <div class="payment-stats">
-                                <div><span>Orange Money</span><strong>42%</strong></div>
-                                <div><span>Wave</span><strong>31%</strong></div>
-                                <div><span>À la livraison</span><strong>18%</strong></div>
-                                <div><span>Carte bancaire</span><strong>9%</strong></div>
+                            <div class="payment-stats" id="paymentStats">
+                                <div><span>Orange Money</span><strong>0%</strong></div>
+                                <div><span>Wave</span><strong>0%</strong></div>
+                                <div><span>À la livraison</span><strong>0%</strong></div>
                             </div>
                         </article>
                     </div>

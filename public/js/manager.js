@@ -237,7 +237,7 @@ function showOrderDetails(order) {
 export async function renderDashboard() {
   const d = await api.fetchDashboard();
   if (!d) return;
-  const values = [52, 72, 44, 85, 65, 91, 60];
+  const values = d.orders === 0 ? [0, 0, 0, 0, 0, 0, 0] : [52, 72, 44, 85, 65, 91, 60];
   const recentOrders = Array.isArray(d.recent) ? d.recent : [];
   $('#revenueStat').textContent = fmt(d.revenue);
   $('#ordersStat').textContent = d.orders;
@@ -246,6 +246,14 @@ export async function renderDashboard() {
   $('#lowStockStat').textContent = `${d.low.length} à surveiller`;
   $('#weeklyRevenue').textContent = fmt(d.revenue);
   $('#salesChart').innerHTML = values.map(v => `<span class="chart-bar" style="height:${v}%"></span>`).join('');
+  const paymentStatsEl = $('#paymentStats');
+  if (paymentStatsEl && d.orders === 0) {
+    paymentStatsEl.innerHTML = `
+      <div><span>Orange Money</span><strong>0%</strong></div>
+      <div><span>Wave</span><strong>0%</strong></div>
+      <div><span>À la livraison</span><strong>0%</strong></div>
+    `;
+  }
   $('#ordersTable').innerHTML = recentOrders.length
     ? recentOrders.map(renderOrderRow).join('')
     : '<div class="empty-state"><span class="empty-icon">🛒</span><strong>Aucune commande</strong><small>Les commandes récentes apparaîtront ici.</small></div>';
