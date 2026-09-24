@@ -25,7 +25,28 @@ async function loadProducts() {
 function setupCategories() {
   $('#chips').onclick = e => { if (e.target.dataset.category) setCategory(e.target.dataset.category); };
   document.querySelectorAll('[data-filter]').forEach(a => a.onclick = () => setCategory(a.dataset.filter));
-  $('#search').oninput = renderProducts;
+  const searchInput = $('#search');
+  if (searchInput) {
+    searchInput.oninput = () => {
+      renderProducts();
+      if (searchInput.value.trim().length >= 2) {
+        const cat = $('#catalogue');
+        if (cat) {
+          const rect = cat.getBoundingClientRect();
+          if (rect.top > window.innerHeight * 0.65) {
+            cat.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }
+      }
+    };
+    searchInput.onkeydown = e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        renderProducts();
+        $('#catalogue')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
+  }
 }
 
 function boot() {

@@ -7,6 +7,7 @@ function toProduct(row) {
     price: Number(row.price),
     old: row.old_price ? Number(row.old_price) : null,
     img: row.image,
+    desc: row.description || '',
     sizes: row.sizes.split(',').map(size => size.trim()).filter(Boolean),
     stock: Number(row.stock)
   };
