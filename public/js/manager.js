@@ -292,10 +292,49 @@ function openForm(p) {
     $('#formPrice').value = p.price;
     $('#formOld').value = p.old || '';
     $('#formSizes').value = p.sizes.join(', ');
-    $('#formDesc').value = p.desc;
+    $('#formDesc').value = (p.desc && p.desc !== 'undefined') ? p.desc : (p.description && p.description !== 'undefined' ? p.description : '');
     $('#formTag').value = p.tag || '';
     $('#formStock').value = p.stock || 10;
   }
+}
+
+function compressImageFile(file, maxDim = 800, quality = 0.8) {
+  return new Promise(resolve => {
+    if (!file || !file.type.startsWith('image/')) return resolve(file);
+    const reader = new FileReader();
+    reader.onload = ev => {
+      const img = new Image();
+      img.onload = () => {
+        let { width, height } = img;
+        if (width > maxDim || height > maxDim) {
+          if (width >= height) {
+            height = Math.round((height * maxDim) / width);
+            width = maxDim;
+          } else {
+            width = Math.round((width * maxDim) / height);
+            height = maxDim;
+          }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        canvas.toBlob(
+          blob => {
+            if (!blob || blob.size >= file.size) return resolve(file);
+            resolve(new File([blob], file.name.replace(/\.[^.]+$/, '.webp'), { type: 'image/webp' }));
+          },
+          'image/webp',
+          quality
+        );
+      };
+      img.onerror = () => resolve(file);
+      img.src = ev.target.result;
+    };
+    reader.onerror = () => resolve(file);
+    reader.readAsDataURL(file);
+  });
 }
 
 export function editProduct(id) {
@@ -345,7 +384,10 @@ export async function productFormSubmit(e) {
     if (field) f.append(key, field.value);
   });
 
-  if ($('#formImg').files[0]) f.append('image', $('#formImg').files[0]);
+  if ($('#formImg').files[0]) {
+    const optimizedFile = await compressImageFile($('#formImg').files[0]);
+    f.append('image', optimizedFile);
+  }
   const d = await api.saveProduct(f);
   if (d.error) { alert(d.error); return; }
   const { fetchProducts } = api;
