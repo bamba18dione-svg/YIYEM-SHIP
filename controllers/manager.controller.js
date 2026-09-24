@@ -25,7 +25,9 @@ export async function saveProduct(req, res, next) {
     }
 
     const productId = id ? Number(id) : null;
-    let image = req.file ? `uploads/${req.file.filename}` : '';
+    let image = req.file && req.file.buffer
+      ? `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`
+      : (req.file ? `uploads/${req.file.filename}` : '');
     if (productId) {
       const existing = await Product.findImageById(productId);
       if (!existing) return res.status(404).json({ error: 'Produit introuvable.' });

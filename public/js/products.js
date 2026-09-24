@@ -1,6 +1,15 @@
 import { $, fmt } from './utils.js';
 import { state } from './store.js';
 
+const CATEGORY_SYNONYMS = {
+  'T-shirts': 't-shirt t-shirts tshirt tshirts teeshirt tee-shirt tee shirt polo polos haut hauts vetement vetements habit habits',
+  'Jeans': 'jean jeans pantalon pantalons denim cargo baggy wide leg vetement vetements habit habits',
+  'Foot': 'foot football maillot maillots soccer sport survêtement survetement tracksuit veste vetement vetements',
+  'Basket': 'basket baskets basketball nba maillot maillots short sport vetement vetements',
+  'Chaussures': 'chaussure chaussures sneaker sneakers basket baskets soulier souliers tennis running skate crampon',
+  'Vêtements': 'vetement vetements habit habits mode streetwear'
+};
+
 function normalizeText(str = '') {
   return String(str)
     .toLowerCase()
@@ -16,12 +25,16 @@ function productMatchesQuery(p, rawQuery) {
   if (!qNorm) return true;
   const qCompact = qNorm.replace(/\s+/g, '');
 
+  const cleanDesc = p.desc && p.desc !== 'undefined' ? p.desc : (p.description && p.description !== 'undefined' ? p.description : '');
+  const synonyms = CATEGORY_SYNONYMS[p.category] || '';
+
   const haystack = normalizeText([
     p.name,
     p.category,
     p.brand,
-    p.desc || p.description || '',
-    p.tag || ''
+    cleanDesc,
+    p.tag || '',
+    synonyms
   ].join(' '));
   const haystackCompact = haystack.replace(/\s+/g, '');
 
@@ -51,7 +64,8 @@ export function renderProducts() {
     return catMatch && productMatchesQuery(p, rawQuery);
   });
 
-  $('#productGrid').innerHTML = list.map(p => `<article class="card" onclick="openProduct(${p.id})"><div class="image-wrap"><img src="${p.img}" alt="${p.name}">${p.tag ? `<span class="tag">${p.tag}</span>` : ''}<button class="fav" onclick="event.stopPropagation()"><i data-lucide="heart" size="17"></i></button></div><div class="card-body"><div class="brand">${p.brand}</div><div class="product-name">${p.name}</div><div class="price">${fmt(p.price)} ${p.old ? `<span class="old-price">${fmt(p.old)}</span>` : ''}</div><div class="rating"><i data-lucide="star"></i> 4.8 <span>· 36 avis</span></div></div></article>`).join('') || '<p>Aucun produit trouvé pour votre recherche.</p>';
+  const fallbackImg = 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=80';
+  $('#productGrid').innerHTML = list.map(p => `<article class="card" onclick="openProduct(${p.id})"><div class="image-wrap"><img src="${p.img}" alt="${p.name}" onerror="this.onerror=null;this.src='${fallbackImg}';">${p.tag ? `<span class="tag">${p.tag}</span>` : ''}<button class="fav" onclick="event.stopPropagation()"><i data-lucide="heart" size="17"></i></button></div><div class="card-body"><div class="brand">${p.brand}</div><div class="product-name">${p.name}</div><div class="price">${fmt(p.price)} ${p.old ? `<span class="old-price">${fmt(p.old)}</span>` : ''}</div><div class="rating"><i data-lucide="star"></i> 4.8 <span>· 36 avis</span></div></div></article>`).join('') || '<p>Aucun produit trouvé pour votre recherche.</p>';
   lucide.createIcons();
 }
 
@@ -75,7 +89,10 @@ export function openProduct(id) {
   $('#modalBrand').textContent = state.selected.brand;
   $('#modalName').textContent = state.selected.name;
   $('#modalPrice').innerHTML = fmt(state.selected.price) + (state.selected.old ? ` <span class="old-price">${fmt(state.selected.old)}</span>` : '');
-  $('#modalDesc').textContent = state.selected.desc;
+  const descText = state.selected.desc && state.selected.desc !== 'undefined'
+    ? state.selected.desc
+    : (state.selected.description && state.selected.description !== 'undefined' ? state.selected.description : '');
+  $('#modalDesc').textContent = descText;
   $('#qty').textContent = state.quantity;
   renderSizes();
   $('#modal').classList.add('show');
