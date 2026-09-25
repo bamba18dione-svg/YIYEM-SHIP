@@ -119,8 +119,9 @@ function renderColors() {
     return;
   }
   colorsBlock.style.display = 'block';
+  const btnStyle = 'width:auto !important;min-width:56px;height:auto !important;min-height:38px;padding:8px 18px !important;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;box-sizing:border-box;';
   colorsContainer.innerHTML = colors
-    .map(c => `<button type="button" class="size ${c === state.selectedColor ? 'active' : ''}" onclick="selectColor('${c.replace(/'/g, "\\'")}')">${c}</button>`)
+    .map(c => `<button type="button" class="size ${c === state.selectedColor ? 'active' : ''}" style="${btnStyle}" onclick="selectColor('${c.replace(/'/g, "\\'")}')">${c}</button>`)
     .join('');
 }
 
@@ -130,7 +131,8 @@ export function selectColor(c) {
 }
 
 function renderSizes() {
-  $('#sizes').innerHTML = state.selected.sizes.map(s => `<button type="button" class="size ${s === state.selectedSize ? 'active' : ''}" onclick="selectSize('${s}')">${s}</button>`).join('');
+  const btnStyle = 'width:auto !important;min-width:46px;height:auto !important;min-height:38px;padding:8px 14px !important;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;box-sizing:border-box;';
+  $('#sizes').innerHTML = state.selected.sizes.map(s => `<button type="button" class="size ${s === state.selectedSize ? 'active' : ''}" style="${btnStyle}" onclick="selectSize('${s}')">${s}</button>`).join('');
   $('#stock').textContent = state.selectedSize === 'XL' || state.selectedSize === '44' ? 'Plus que 2 articles en stock' : '✓ En stock — livraison disponible';
 }
 

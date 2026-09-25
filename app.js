@@ -32,9 +32,18 @@ export function createApp() {
   app.use(storeRouter);
   app.use(managerRouter);
 
-  app.use(express.static(publicDir));
+  app.use(express.static(publicDir, {
+    etag: true,
+    lastModified: true,
+    setHeaders: res => {
+      res.setHeader('Cache-Control', 'no-cache, must-revalidate');
+    }
+  }));
   app.use('/uploads', express.static(uploadsDir));
-  app.get('/', (_req, res) => res.sendFile(path.join(viewsDir, 'index.html')));
+  app.get('/', (_req, res) => {
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.sendFile(path.join(viewsDir, 'index.html'));
+  });
 
   app.use((error, _req, res, _next) => {
     console.error(error);

@@ -2,7 +2,7 @@ import { $ } from './utils.js';
 import { state } from './store.js';
 import { defaultProducts } from './data.js';
 import * as api from './api.js';
-import { renderProducts, setCategory } from './products.js?v=20260925b';
+import { renderProducts, setCategory } from './products.js?v=20260925c';
 import { renderCart, setupCart } from './cart.js?v=20260925';
 import { setupManager } from './manager.js?v=20260925';
 
