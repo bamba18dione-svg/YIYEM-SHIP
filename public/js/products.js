@@ -27,6 +27,7 @@ function productMatchesQuery(p, rawQuery) {
 
   const cleanDesc = p.desc && p.desc !== 'undefined' ? p.desc : (p.description && p.description !== 'undefined' ? p.description : '');
   const synonyms = CATEGORY_SYNONYMS[p.category] || '';
+  const colorsStr = Array.isArray(p.colors) ? p.colors.join(' ') : (p.colors || '');
 
   const haystack = normalizeText([
     p.name,
@@ -34,6 +35,7 @@ function productMatchesQuery(p, rawQuery) {
     p.brand,
     cleanDesc,
     p.tag || '',
+    colorsStr,
     synonyms
   ].join(' '));
   const haystackCompact = haystack.replace(/\s+/g, '');
@@ -65,7 +67,11 @@ export function renderProducts() {
   });
 
   const fallbackImg = 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=80';
-  $('#productGrid').innerHTML = list.map(p => `<article class="card" onclick="openProduct(${p.id})"><div class="image-wrap"><img src="${p.img}" alt="${p.name}" onerror="this.onerror=null;this.src='${fallbackImg}';">${p.tag ? `<span class="tag">${p.tag}</span>` : ''}<button class="fav" onclick="event.stopPropagation()"><i data-lucide="heart" size="17"></i></button></div><div class="card-body"><div class="brand">${p.brand}</div><div class="product-name">${p.name}</div><div class="price">${fmt(p.price)} ${p.old ? `<span class="old-price">${fmt(p.old)}</span>` : ''}</div><div class="rating"><i data-lucide="star"></i> 4.8 <span>· 36 avis</span></div></div></article>`).join('') || '<p>Aucun produit trouvé pour votre recherche.</p>';
+  $('#productGrid').innerHTML = list.map(p => {
+    const colorList = Array.isArray(p.colors) ? p.colors.filter(Boolean) : [];
+    const colorSub = colorList.length ? `<div style="font-size:12px;color:#64748b;margin-top:2px;">Couleurs : ${colorList.join(', ')}</div>` : '';
+    return `<article class="card" onclick="openProduct(${p.id})"><div class="image-wrap"><img src="${p.img}" alt="${p.name}" onerror="this.onerror=null;this.src='${fallbackImg}';">${p.tag ? `<span class="tag">${p.tag}</span>` : ''}<button class="fav" onclick="event.stopPropagation()"><i data-lucide="heart" size="17"></i></button></div><div class="card-body"><div class="brand">${p.brand}</div><div class="product-name">${p.name}</div>${colorSub}<div class="price">${fmt(p.price)} ${p.old ? `<span class="old-price">${fmt(p.old)}</span>` : ''}</div><div class="rating"><i data-lucide="star"></i> 4.8 <span>· 36 avis</span></div></div></article>`;
+  }).join('') || '<p>Aucun produit trouvé pour votre recherche.</p>';
   lucide.createIcons();
 }
 
@@ -83,7 +89,9 @@ export function setCategory(c) {
 
 export function openProduct(id) {
   state.selected = state.products.find(p => p.id === id);
-  state.selectedSize = state.selected.sizes[0];
+  state.selectedSize = state.selected.sizes[0] || '';
+  const colors = Array.isArray(state.selected.colors) ? state.selected.colors.filter(Boolean) : [];
+  state.selectedColor = colors[0] || '';
   state.quantity = 1;
   $('#modalImg').src = state.selected.img;
   $('#modalBrand').textContent = state.selected.brand;
@@ -94,13 +102,35 @@ export function openProduct(id) {
     : (state.selected.description && state.selected.description !== 'undefined' ? state.selected.description : '');
   $('#modalDesc').textContent = descText;
   $('#qty').textContent = state.quantity;
+  renderColors();
   renderSizes();
   $('#modal').classList.add('show');
   $('#overlay').classList.add('show');
 }
 
+function renderColors() {
+  const colorsBlock = $('#colorsBlock');
+  const colorsContainer = $('#colors');
+  if (!colorsBlock || !colorsContainer) return;
+  const colors = Array.isArray(state.selected?.colors) ? state.selected.colors.filter(Boolean) : [];
+  if (!colors.length) {
+    colorsBlock.style.display = 'none';
+    colorsContainer.innerHTML = '';
+    return;
+  }
+  colorsBlock.style.display = 'block';
+  colorsContainer.innerHTML = colors
+    .map(c => `<button type="button" class="size ${c === state.selectedColor ? 'active' : ''}" onclick="selectColor('${c.replace(/'/g, "\\'")}')">${c}</button>`)
+    .join('');
+}
+
+export function selectColor(c) {
+  state.selectedColor = c;
+  renderColors();
+}
+
 function renderSizes() {
-  $('#sizes').innerHTML = state.selected.sizes.map(s => `<button class="size ${s === state.selectedSize ? 'active' : ''}" onclick="selectSize('${s}')">${s}</button>`).join('');
+  $('#sizes').innerHTML = state.selected.sizes.map(s => `<button type="button" class="size ${s === state.selectedSize ? 'active' : ''}" onclick="selectSize('${s}')">${s}</button>`).join('');
   $('#stock').textContent = state.selectedSize === 'XL' || state.selectedSize === '44' ? 'Plus que 2 articles en stock' : '✓ En stock — livraison disponible';
 }
 
@@ -111,4 +141,5 @@ export function selectSize(s) {
 
 window.openProduct = openProduct;
 window.selectSize = selectSize;
+window.selectColor = selectColor;
 window.setCategory = setCategory;

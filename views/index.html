@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>YIYEM SHIP — Streetwear & Mode</title>
+    <title>YEYAM SHOP — Streetwear & Mode</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap"
@@ -19,7 +19,7 @@
         <div class="login-card">
             <button class="close-modal" id="closeLoginModal" type="button" aria-label="Fermer"><i data-lucide="x"></i></button>
             <div class="login-header">
-                <div class="logo">YIYEM<b>SHIP</b></div>
+                <div class="logo">YEYAM<b>SHOP</b></div>
                 <h3>Espace Gérant</h3>
                 <p>Connectez-vous pour accéder au tableau de bord et gérer vos commandes.</p>
             </div>
@@ -36,7 +36,7 @@
         </div>
     </div>
     <header>
-        <a class="logo" href="#">YIYEM<b>SHIP</b></a>
+        <a class="logo" href="#">YEYAM<b>SHOP</b></a>
         <div class="search"><i data-lucide="search"></i><input id="search" placeholder="Que recherchez-vous ?"></div>
         <div class="head-actions">
             <button class="head-action" id="managerTrigger" type="button" title="Accès Gérant">
@@ -56,15 +56,15 @@
             href="#catalogue" data-filter="Chaussures">Chaussures</a><a href="#footer">Contact</a></nav>
     <main class="container">
         <section class="hero">
-            <div class="hero-watermark" aria-hidden="true">YIYEM SHIP</div>
+            <div class="hero-watermark" aria-hidden="true">YEYAM SHOP</div>
             <div class="hero-copy">
                 <div class="hero-badge">
                     <span class="pulse-dot"></span>
-                    <span>NOUVELLE COLLECTION · YIYEM SHIP 2026</span>
+                    <span>NOUVELLE COLLECTION · YEYAM SHOP 2026</span>
                 </div>
                 <h1 class="hero-title">
                     Bienvenue dans l’univers de<br>
-                    <span class="hero-brand-name">YIYEM <b>SHIP</b></span>
+                    <span class="hero-brand-name">YEYAM <b>SHOP</b></span>
                 </h1>
                 <p>Découvrez la référence mode & streetwear au Sénégal. Des pièces exclusives pensées pour sublimer chacun de vos mouvements.</p>
                 <div class="hero-actions">
@@ -138,12 +138,12 @@
         <section class="simple-banner" id="simpleBanner">
             <div class="simple-marquee">
                 <div class="simple-marquee-track">
-                    <span>YIYEM SHIP</span> <i>✦</i>
+                    <span>YEYAM SHOP</span> <i>✦</i>
                     <span>SNEAKERS & STREETWEAR</span> <i>✦</i>
                     <span>LIVRAISON EXPRESS 24H DAKAR</span> <i>✦</i>
                     <span>100% AUTHENTIQUE</span> <i>✦</i>
                     <span>NOUVELLE COLLECTION 2026</span> <i>✦</i>
-                    <span>YIYEM SHIP</span> <i>✦</i>
+                    <span>YEYAM SHOP</span> <i>✦</i>
                     <span>SNEAKERS & STREETWEAR</span> <i>✦</i>
                     <span>LIVRAISON EXPRESS 24H DAKAR</span> <i>✦</i>
                     <span>100% AUTHENTIQUE</span> <i>✦</i>
@@ -172,7 +172,7 @@
     <footer id="footer">
         <div class="footer-grid">
             <div>
-                <div class="footer-logo">YIYEM<span style="color:var(--orange)">SHIP</span></div>
+                <div class="footer-logo">YEYAM<span style="color:var(--orange)">SHOP</span></div>
                 <p>La mode accessible, sans compromis.</p>
             </div>
             <div>
@@ -190,7 +190,7 @@
                 <div class="payments"><b class="pay">OM</b><b class="pay">wave</b><b class="pay">VISA</b></div>
             </div>
         </div>
-        <div class="foot-bottom"><span>© YIYEM SHIP</span></div>
+        <div class="foot-bottom"><span>© YEYAM SHOP</span></div>
     </footer>
     <div class="overlay" id="overlay"></div>
     <aside class="drawer" id="drawer">
@@ -257,6 +257,10 @@
                 <h2 id="modalName"></h2>
                 <div class="price" id="modalPrice"></div>
                 <p id="modalDesc"></p>
+                <div id="colorsBlock" style="display:none; margin-bottom: 12px;">
+                    <div class="size-label">Choisir une couleur</div>
+                    <div class="sizes" id="colors"></div>
+                </div>
                 <div class="size-label">Choisir une taille</div>
                 <div class="sizes" id="sizes"></div>
                 <p class="stock" id="stock"></p>
@@ -387,8 +391,8 @@
                         <option>Chaussures</option>
                         <option>Vêtements</option>
                     </select></label><label>Prix<input id="formPrice" type="number" required></label><label>Ancien
-                    prix<input id="formOld" type="number"></label><label>Tailles<input id="formSizes"
-                        required></label><label>Stock<input id="formStock" type="number" min="0" value="10"
+                    prix<input id="formOld" type="number"></label><label>Tailles<input id="formSizes" placeholder="Ex: S, M, L, XL"
+                        required></label><label>Couleurs<input id="formColors" placeholder="Ex: Noir, Blanc, Rouge"></label><label>Stock<input id="formStock" type="number" min="0" value="10"
                         required></label></div><label>Photo du produit<input id="formImg" type="file"
                     accept="image/jpeg,image/png,image/webp"></label><label>Description<textarea id="formDesc"
                     required></textarea></label><label>Étiquette<input id="formTag"></label><button class="primary"
@@ -396,7 +400,7 @@
         </form>
     </section>
     <div class="toast" id="toast"></div>
-    <script type="module" src="/js/main.js?v=20260924"></script>
+    <script type="module" src="/js/main.js?v=20260925"></script>
 </body>
 
 </html>

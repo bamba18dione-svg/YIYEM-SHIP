@@ -3,6 +3,7 @@ export const state = {
   category: 'Tous',
   selected: null,
   selectedSize: '',
+  selectedColor: '',
   quantity: 1,
   cart: []
 };

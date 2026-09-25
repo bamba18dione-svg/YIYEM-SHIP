@@ -2,9 +2,9 @@ import { $ } from './utils.js';
 import { state } from './store.js';
 import { defaultProducts } from './data.js';
 import * as api from './api.js';
-import { renderProducts, setCategory } from './products.js?v=20260924';
-import { renderCart, setupCart } from './cart.js';
-import { setupManager } from './manager.js';
+import { renderProducts, setCategory } from './products.js?v=20260925';
+import { renderCart, setupCart } from './cart.js?v=20260925';
+import { setupManager } from './manager.js?v=20260925';
 
 async function loadProducts() {
   try {

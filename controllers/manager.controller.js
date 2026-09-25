@@ -19,7 +19,7 @@ export async function getDashboard(_req, res, next) {
 
 export async function saveProduct(req, res, next) {
   try {
-    const { id, name, brand, category, price, old, sizes, desc, tag, stock } = req.body;
+    const { id, name, brand, category, price, old, sizes, colors, desc, tag, stock } = req.body;
     if (!name?.trim() || !brand?.trim() || !category?.trim() || !Number(price) || !sizes?.trim() || !desc?.trim()) {
       return res.status(422).json({ error: 'Veuillez compléter les champs obligatoires.' });
     }
@@ -46,6 +46,7 @@ export async function saveProduct(req, res, next) {
       oldPrice: Number(old) || null,
       image,
       sizes: sizes.trim(),
+      colors: (colors || '').trim(),
       description: desc.trim(),
       tag: tag?.trim() || '',
       stock: Math.max(0, Number(stock) || 0)

@@ -8,7 +8,8 @@ function toProduct(row) {
     old: row.old_price ? Number(row.old_price) : null,
     img: row.image,
     desc: row.description || '',
-    sizes: row.sizes.split(',').map(size => size.trim()).filter(Boolean),
+    sizes: (row.sizes || '').split(',').map(size => size.trim()).filter(Boolean),
+    colors: (row.colors || '').split(',').map(color => color.trim()).filter(Boolean),
     stock: Number(row.stock)
   };
 }
@@ -53,11 +54,11 @@ export async function findImageById(id) {
   return product || null;
 }
 
-export async function save({ id, name, brand, category, price, oldPrice, image, sizes, description, tag, stock }) {
-  const values = [name, brand, category, price, oldPrice, image, sizes, description, tag, stock];
+export async function save({ id, name, brand, category, price, oldPrice, image, sizes, colors, description, tag, stock }) {
+  const values = [name, brand, category, price, oldPrice, image, sizes, colors || '', description, tag, stock];
   const query = id
-    ? 'UPDATE products SET name=$1,brand=$2,category=$3,price=$4,old_price=$5,image=$6,sizes=$7,description=$8,tag=$9,stock=$10 WHERE id=$11 RETURNING *'
-    : 'INSERT INTO products(name,brand,category,price,old_price,image,sizes,description,tag,stock) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING *';
+    ? 'UPDATE products SET name=$1,brand=$2,category=$3,price=$4,old_price=$5,image=$6,sizes=$7,colors=$8,description=$9,tag=$10,stock=$11 WHERE id=$12 RETURNING *'
+    : 'INSERT INTO products(name,brand,category,price,old_price,image,sizes,colors,description,tag,stock) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING *';
   const { rows: [saved] } = await db.query(query, id ? [...values, Number(id)] : values);
   return toProduct(saved);
 }

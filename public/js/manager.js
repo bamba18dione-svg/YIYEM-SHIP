@@ -276,7 +276,10 @@ export async function renderDashboard() {
 }
 
 export function renderAdmin() {
-  $('#adminList').innerHTML = state.products.map(p => `<div class="admin-product"><img src="${p.img}" alt=""><div class="admin-product-info"><strong>${p.name}</strong><small>${fmt(p.price)} · ${p.category}</small></div><button class="small-button" onclick="editProduct(${p.id})"><i data-lucide="pencil" size="15"></i></button><button class="small-button delete" onclick="deleteProduct(${p.id})"><i data-lucide="trash-2" size="15"></i></button></div>`).join('');
+  $('#adminList').innerHTML = state.products.map(p => {
+    const colorText = Array.isArray(p.colors) && p.colors.length ? ` · Couleurs : ${p.colors.join(', ')}` : '';
+    return `<div class="admin-product"><img src="${p.img}" alt=""><div class="admin-product-info"><strong>${p.name}</strong><small>${fmt(p.price)} · ${p.category}${colorText}</small></div><button class="small-button" onclick="editProduct(${p.id})"><i data-lucide="pencil" size="15"></i></button><button class="small-button delete" onclick="deleteProduct(${p.id})"><i data-lucide="trash-2" size="15"></i></button></div>`;
+  }).join('');
   lucide.createIcons();
 }
 
@@ -292,6 +295,9 @@ function openForm(p) {
     $('#formPrice').value = p.price;
     $('#formOld').value = p.old || '';
     $('#formSizes').value = p.sizes.join(', ');
+    if ($('#formColors')) {
+      $('#formColors').value = Array.isArray(p.colors) ? p.colors.join(', ') : (p.colors || '');
+    }
     $('#formDesc').value = (p.desc && p.desc !== 'undefined') ? p.desc : (p.description && p.description !== 'undefined' ? p.description : '');
     $('#formTag').value = p.tag || '';
     $('#formStock').value = p.stock || 10;
@@ -373,6 +379,7 @@ export async function productFormSubmit(e) {
     price: 'formPrice',
     old: 'formOld',
     sizes: 'formSizes',
+    colors: 'formColors',
     desc: 'formDesc',
     tag: 'formTag',
     stock: 'formStock'

@@ -6,7 +6,7 @@ const port = process.env.PORT || 3000;
 const app = createApp();
 
 initialiseDatabase()
-  .then(() => app.listen(port, () => console.log(`YEYAM SHIP: http://localhost:${port}`)))
+  .then(() => app.listen(port, () => console.log(`YEYAM SHOP: http://localhost:${port}`)))
   .catch(error => {
     console.error('Connexion Neon impossible:', error.message);
     process.exit(1);

@@ -15,7 +15,7 @@ export function renderCart() {
   $('#drawerCount').textContent = count ? '(' + count + ')' : '';
   $('#total').textContent = fmt(state.cart.reduce((a, x) => a + x.price * x.quantity, 0));
   $('#cartItems').innerHTML = state.cart.length
-    ? state.cart.map((x, i) => `<div class="cart-item"><img src="${x.img}"><div><h5>${x.name}</h5><p>Taille : ${x.size} · Qté : ${x.quantity}</p><strong>${fmt(x.price * x.quantity)}</strong></div><button class="icon-btn" style="margin-left:auto" onclick="removeCart(${i})"><i data-lucide="trash-2" size="16"></i></button></div>`).join('')
+    ? state.cart.map((x, i) => `<div class="cart-item"><img src="${x.img}"><div><h5>${x.name}</h5><p>Taille : ${x.size}${x.color ? ' · Couleur : ' + x.color : ''} · Qté : ${x.quantity}</p><strong>${fmt(x.price * x.quantity)}</strong></div><button class="icon-btn" style="margin-left:auto" onclick="removeCart(${i})"><i data-lucide="trash-2" size="16"></i></button></div>`).join('')
     : '<div class="empty"><i data-lucide="shopping-bag" size="35"></i><p>Votre panier est encore vide.</p></div>';
   lucide.createIcons();
 }
@@ -68,18 +68,22 @@ export async function checkout() {
 export async function orderViaWhatsApp() {
   if (!state.cart.length) return showToast('Votre panier est vide.');
 
-  const fullName = $('#customerName').value.trim() || 'Client YIYEM SHIP';
+  const fullName = $('#customerName').value.trim() || 'Client YEYAM SHOP';
   const phone = $('#customerPhone').value.trim() || 'Non renseigné';
   const address = $('#customerAddress').value.trim() || 'Non renseignée';
   const payment = getSelectedPayment();
 
   const total = state.cart.reduce((a, x) => a + x.price * x.quantity, 0);
 
-  let message = `Bonjour *YIYEM SHIP* ! 👋\nJe souhaite passer une commande :\n\n`;
+  let message = `Bonjour *YEYAM SHOP* ! 👋\nJe souhaite passer une commande :\n\n`;
   message += `🛒 *ARTICLES COMMANDÉS :*\n`;
   state.cart.forEach((item, idx) => {
-    const size = item.size ? ` (Taille: ${item.size})` : '';
-    message += `${idx + 1}. *${item.name}*${size} x${item.quantity} — ${fmt(item.price * item.quantity)}\n`;
+    const details = [
+      item.size ? `Taille: ${item.size}` : '',
+      item.color ? `Couleur: ${item.color}` : ''
+    ].filter(Boolean).join(', ');
+    const detailsText = details ? ` (${details})` : '';
+    message += `${idx + 1}. *${item.name}*${detailsText} x${item.quantity} — ${fmt(item.price * item.quantity)}\n`;
   });
   message += `\n💰 *Total :* ${fmt(total)}\n`;
   message += `💳 *Paiement :* ${payment}\n\n`;
@@ -88,7 +92,7 @@ export async function orderViaWhatsApp() {
   message += `• *Téléphone :* ${phone}\n`;
   message += `• *Adresse :* ${address}\n`;
 
-  if (fullName !== 'Client YIYEM SHIP' && phone !== 'Non renseigné' && address !== 'Non renseignée') {
+  if (fullName !== 'Client YEYAM SHOP' && phone !== 'Non renseigné' && address !== 'Non renseignée') {
     try {
       await api.placeOrder(state.cart, { fullName, phone, address }, `WhatsApp (${payment})`);
       state.cart = [];
@@ -125,7 +129,7 @@ export function setupCart() {
   $('#plus').onclick = () => $('#qty').textContent = ++state.quantity;
   $('#minus').onclick = () => { if (state.quantity > 1) $('#qty').textContent = --state.quantity; };
   $('#addToCart').onclick = () => {
-    state.cart.push({ ...state.selected, size: state.selectedSize, quantity: state.quantity });
+    state.cart.push({ ...state.selected, size: state.selectedSize, color: state.selectedColor || '', quantity: state.quantity });
     renderCart();
     closeAll();
     showToast('Produit ajouté au panier');
