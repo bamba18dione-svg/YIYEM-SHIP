@@ -69,7 +69,7 @@ export function renderProducts() {
   const fallbackImg = 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=80';
   $('#productGrid').innerHTML = list.map(p => {
     const colorList = Array.isArray(p.colors) ? p.colors.filter(Boolean) : [];
-    const colorSub = colorList.length ? `<div style="font-size:12px;color:#64748b;margin-top:2px;">Couleurs : ${colorList.join(', ')}</div>` : '';
+    const colorSub = colorList.length ? `<div style="font-size:12px;color:#64748b;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Couleurs : ${colorList.join(', ')}</div>` : '';
     return `<article class="card" onclick="openProduct(${p.id})"><div class="image-wrap"><img src="${p.img}" alt="${p.name}" onerror="this.onerror=null;this.src='${fallbackImg}';">${p.tag ? `<span class="tag">${p.tag}</span>` : ''}<button class="fav" onclick="event.stopPropagation()"><i data-lucide="heart" size="17"></i></button></div><div class="card-body"><div class="brand">${p.brand}</div><div class="product-name">${p.name}</div>${colorSub}<div class="price">${fmt(p.price)} ${p.old ? `<span class="old-price">${fmt(p.old)}</span>` : ''}</div><div class="rating"><i data-lucide="star"></i> 4.8 <span>· 36 avis</span></div></div></article>`;
   }).join('') || '<p>Aucun produit trouvé pour votre recherche.</p>';
   lucide.createIcons();
